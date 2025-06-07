@@ -1,0 +1,40 @@
+version: "3.8"
+services:
+  mongo:
+    image: mongo:6
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  backend:
+    build: ./backend
+    container_name: backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/stockdb
+      - JWT_SECRET=monSuperSecretChangeLe!
+    depends_on:
+      - mongo
+    volumes:
+      - ./backend:/app
+    working_dir: /app
+    command: ["node", "index.js"]
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    working_dir: /app
+    command: ["npm", "start"]
+
+volumes:
+  mongo-data:
