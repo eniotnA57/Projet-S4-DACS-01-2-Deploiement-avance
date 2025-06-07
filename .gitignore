@@ -1,0 +1,15 @@
+# Node
+node_modules
+.env
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE / système
+.vscode
+.DS_Store
+
+# Docker volumes (optionnel)
+*.local
