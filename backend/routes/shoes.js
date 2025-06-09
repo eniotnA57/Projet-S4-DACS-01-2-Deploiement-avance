@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Shoe = require('../models/Shoe');
+const fetchWethenewImageFromApi = require('../utils/fetchWethenewImage'); // ✅ Import correct
 
 // 🔧 Normalisation du nom
 const normalizeName = (name) => name.toLowerCase().trim().replace(/\s+/g, ' ');
@@ -33,6 +34,8 @@ router.post('/', async (req, res) => {
     const normalizedName = normalizeName(name);
     const slug = generateSlug(name);
 
+    const image = await fetchWethenewImageFromApi(slug); // ✅ Appel à l'API Wethenew
+
     const newShoe = new Shoe({
       name: normalizedName,
       slug,
@@ -40,7 +43,8 @@ router.post('/', async (req, res) => {
       size: sizeNumber,
       category,
       user,
-      price: parsedPrice
+      price: parsedPrice,
+      image
     });
 
     const saved = await newShoe.save();

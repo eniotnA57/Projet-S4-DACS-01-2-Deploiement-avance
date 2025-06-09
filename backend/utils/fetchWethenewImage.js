@@ -1,21 +1,50 @@
-const puppeteer = require('puppeteer');
+const axios = require('axios');
 
-async function fetchWethenewImage(productName) {
-  const slug = productName.toLowerCase().replace(/\s+/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  const url = `https://wethenew.com/products/${slug}`;
+async function fetchWethenewImageFromApi(handle) {
   try {
-    const browser = await puppeteer.launch({ headless: true });
-    const page = await browser.newPage();
-    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 10000 });
+    const response = await axios.post(
+      'https://checkout.wethenew.com/api/2025-04/graphql.json',
+      {
+        operationName: 'productByHandle',
+        query: `
+          query productByHandle($handle: String!, $language: LanguageCode, $country: CountryCode) 
+          @inContext(language: $language, country: $country) {
+            product(handle: $handle) {
+              title
+              featuredImage {
+                url
+              }
+            }
+          }
+        `,
+        variables: {
+          handle,
+          country: 'FR',
+          language: 'FR'
+        }
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'x-shopify-storefront-access-token': '69e21e4f3e3333ff802f6a920c5ca4d5'
+        }
+      }
+    );
 
-    const imageUrl = await page.$eval('img[src*="cdn.shopify"]', img => img.src);
+    const product = response.data?.data?.product;
 
-    await browser.close();
-    return imageUrl;
+    if (!product) {
+      console.warn(`[Wethenew] Aucun produit trouvé pour handle : ${handle}`);
+    } else {
+      console.log(`[Wethenew] Produit trouvé :`, product.title);
+      console.log(`[Wethenew] Image URL :`, product.featuredImage?.url);
+    }
+
+    return product?.featuredImage?.url || '';
   } catch (err) {
-    console.error(`Erreur scraping pour ${productName} :`, err.message);
+    console.error(`❌ Erreur API Wethenew pour "${handle}" :`, err.message);
     return '';
   }
 }
 
-module.exports = fetchWethenewImage;
+module.exports = fetchWethenewImageFromApi;

@@ -43,9 +43,8 @@ export default function AdminDashboard({ username }) {
       <h2 className="welcome-text">Bienvenue, {username} (admin)</h2>
 
       <button className="logout-btn" onClick={() => {
-        // 👉 ici tu peux nettoyer le token ou rediriger
         localStorage.removeItem("token");
-        window.location.href = "/login"; // ou vers ta page de connexion
+        window.location.href = "/login";
       }}>
         Déconnexion
       </button>
@@ -75,7 +74,14 @@ export default function AdminDashboard({ username }) {
           .filter(([slug, shoes]) => shoes[0].name.toLowerCase().includes(filter))
           .map(([slug, shoes]) => (
             <div key={slug} className="sneaker-tile">
-              {shoes[0].name}
+              <img src={shoes[0].image} alt={shoes[0].name} className="sneaker-image" />
+              <div className="sneaker-name">{shoes[0].name}</div>
+              <button
+                className="delete-button"
+                onClick={() => handleDelete(shoes[0]._id)}
+              >
+                Supprimer
+              </button>
             </div>
         ))}
       </div>
