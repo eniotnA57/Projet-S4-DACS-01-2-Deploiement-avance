@@ -1,0 +1,128 @@
+:root {
+  --beige: #f4ede6;
+  --brown: #a56e49;
+  --light-brown: #c7a889;
+  --accent-green: #27ae60;
+  --accent-green-dark: #219653;
+  --border-radius: 10px;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --font: 'Segoe UI', sans-serif;
+}
+
+body {
+  margin: 0;
+  background-color: var(--beige);
+  font-family: var(--font);
+}
+
+.admin-dashboard {
+  padding: 20px 40px 40px;
+  min-height: 100vh;
+  background-color: var(--beige);
+  color: #333;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Titre + bouton à gauche */
+.welcome-text {
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--brown);
+}
+
+.add-button-left {
+  padding: 10px 16px;
+  background-color: var(--accent-green);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s;
+  margin-bottom: 30px;
+}
+
+.add-button-left:hover {
+  background-color: var(--accent-green-dark);
+}
+
+/* Formulaire ajout */
+.add-sneaker-form-wrapper {
+  background-color: #fffaf4;
+  border: 2px solid var(--light-brown);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: var(--shadow);
+}
+
+/* Barre de recherche centrée */
+.centered-search {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.search-input {
+  width: 300px;
+  max-width: 90%;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: var(--border-radius);
+  border: 1px solid #ccc;
+}
+
+/* Grille sneakers */
+.sneaker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 160px));
+  gap: 20px;
+  justify-content: center;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* Tuile sneaker */
+.sneaker-tile {
+  background-color: white;
+  border: 2px solid var(--light-brown);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1rem;
+  color: var(--brown);
+  box-shadow: var(--shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+  max-width: 180px;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sneaker-tile:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.logout-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #e74c3c;
+  color: white;
+  padding: 10px 16px;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: background-color 0.2s;
+}
+
+.logout-btn:hover {
+  background-color: #c0392b;
+}

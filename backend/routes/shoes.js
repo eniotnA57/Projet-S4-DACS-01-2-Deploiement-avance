@@ -1,9 +1,101 @@
 const express = require('express');
 const router = express.Router();
+const Shoe = require('../models/Shoe');
 
-// Exemple de route GET
-router.get('/', (req, res) => {
-  res.json({ message: 'Liste des sneakers 🏀' });
+// 🔧 Normalisation du nom
+const normalizeName = (name) => name.toLowerCase().trim().replace(/\s+/g, ' ');
+
+// 🔧 Génération de slug
+const generateSlug = (name) => normalizeName(name).replace(/\s+/g, '-');
+
+// 🔍 GET - Toutes les paires (filtrable par utilisateur)
+router.get('/', async (req, res) => {
+  try {
+    const filter = req.query.user ? { user: req.query.user } : {};
+    const shoes = await Shoe.find(filter).populate('user', 'username');
+    res.json(shoes);
+  } catch (err) {
+    console.error('Erreur GET /api/shoes :', err);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+});
+
+// ➕ POST - Ajouter une paire
+router.post('/', async (req, res) => {
+  try {
+    const { name, code, size, category, user, price } = req.body;
+    const sizeNumber = Number(size);
+    const parsedPrice = parseFloat(price);
+
+    if (isNaN(sizeNumber)) return res.status(400).json({ error: 'Taille invalide' });
+    if (isNaN(parsedPrice)) return res.status(400).json({ error: 'Prix invalide' });
+
+    const normalizedName = normalizeName(name);
+    const slug = generateSlug(name);
+
+    const newShoe = new Shoe({
+      name: normalizedName,
+      slug,
+      code,
+      size: sizeNumber,
+      category,
+      user,
+      price: parsedPrice
+    });
+
+    const saved = await newShoe.save();
+    const populated = await saved.populate('user', 'username');
+    res.status(201).json(populated);
+  } catch (err) {
+    console.error('Erreur POST /api/shoes :', err.message);
+    if (err.code === 11000 && err.keyPattern?.slug) {
+      return res.status(400).json({ error: 'Cette paire existe déjà.' });
+    }
+    res.status(500).json({ error: 'Erreur serveur lors de l\'ajout' });
+  }
+});
+
+// ❌ DELETE - Supprimer une paire par ID
+router.delete('/:id', async (req, res) => {
+  try {
+    const result = await Shoe.findByIdAndDelete(req.params.id);
+    if (!result) return res.status(404).json({ error: 'Paire non trouvée' });
+    res.json({ message: 'Paire supprimée' });
+  } catch (err) {
+    console.error('Erreur DELETE /api/shoes/:id :', err);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+});
+
+// 🔍 GET - Toutes les tailles d’un même modèle (par slug)
+router.get('/slug/:slug', async (req, res) => {
+  try {
+    const shoes = await Shoe.find({ slug: req.params.slug }).populate('user', 'username');
+    if (!shoes.length) return res.status(404).json({ error: 'Paire non trouvée' });
+
+    const { name, image, slug } = shoes[0];
+    const sizes = shoes.map(s => s.size);
+    const ids = shoes.map(s => s._id);
+
+    res.json({ name, image, slug, sizes, ids });
+  } catch (err) {
+    console.error('Erreur GET /api/shoes/slug/:slug :', err);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+});
+
+// ❌ DELETE - Supprimer toutes les tailles d’une paire (par slug)
+router.delete('/slug/:slug', async (req, res) => {
+  try {
+    const result = await Shoe.deleteMany({ slug: req.params.slug });
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ error: 'Aucune paire trouvée avec ce slug' });
+    }
+    res.json({ message: `${result.deletedCount} paires supprimées` });
+  } catch (err) {
+    console.error('Erreur DELETE /api/shoes/slug/:slug :', err);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
 });
 
 module.exports = router;

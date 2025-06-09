@@ -20,5 +20,10 @@ app.use('/api', authRoutes);
 const shoesRoutes = require('./routes/shoes');
 app.use('/api/shoes', shoesRoutes); // <-- active le fichier shoes.js
 
-// 4. Lancement du serveur
+// 4. Routes des utilisateurs (GET /api/users, etc.)
+const userRoutes = require('./routes/users');
+app.use('/api/users', userRoutes);
+
+
+// 5. Lancement du serveur
 app.listen(8000, '0.0.0.0', () => console.log('API running on port 8000'));

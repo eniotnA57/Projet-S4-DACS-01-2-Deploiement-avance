@@ -17,8 +17,9 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+// 📥 REGISTER
 router.post('/register', async (req, res) => {
-  const { username, password, firstName, lastName, email } = req.body;
+  const { username, password, firstName, lastName, email, role = 'user' } = req.body;
 
   try {
     const existing = await User.findOne({ username });
@@ -31,28 +32,34 @@ router.post('/register', async (req, res) => {
       password: hashedPassword,
       firstName,
       lastName,
-      email
+      email,
+      role
     });
 
-    console.log("MAIL_USER:", process.env.MAIL_USER);
-    console.log("MAIL_PASS:", process.env.MAIL_PASS ? "✔️" : "❌ PAS DE MDP");
-
-
+    // ✅ Envoi d'email de bienvenue
     await transporter.sendMail({
       from: `"Stock Manager" <${process.env.MAIL_USER}>`,
       to: email,
-      subject: "Bienvenue",
-      html: `<h3>Bonjour ${firstName},</h3><p>Merci de vous être inscrit sur notre plateforme de gestion de sneakers.</p>`
+      subject: "Bienvenue ! 👟",
+      html: `<h3>Bonjour ${firstName},</h3>
+             <p>Merci pour votre inscription sur notre gestionnaire de stock de sneakers.</p>`
     });
 
-    const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: '24h' });
-    res.json({ token });
+    // ✅ Création du token
+    const token = jwt.sign(
+      { id: user._id, username: user.username, role: user.role },
+      JWT_SECRET,
+      { expiresIn: '24h' }
+    );
+
+    res.status(201).json({ token });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Erreur serveur' });
+    console.error('Erreur register :', err);
+    res.status(500).json({ message: 'Erreur serveur lors de l\'inscription' });
   }
 });
 
+// 🔐 LOGIN
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
@@ -60,14 +67,19 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({ username });
     if (!user) return res.status(401).json({ message: 'Utilisateur inconnu' });
 
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) return res.status(401).json({ message: 'Mot de passe incorrect' });
+    const isValid = await bcrypt.compare(password, user.password);
+    if (!isValid) return res.status(401).json({ message: 'Mot de passe incorrect' });
 
-    const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: '24h' });
+    const token = jwt.sign(
+      { id: user._id, username: user.username, role: user.role },
+      JWT_SECRET,
+      { expiresIn: '24h' }
+    );
+
     res.json({ token });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Erreur serveur' });
+    console.error('Erreur login :', err);
+    res.status(500).json({ message: 'Erreur serveur lors de la connexion' });
   }
 });
 

@@ -1,38 +1,90 @@
-.App {
+/* Arrière-plan général */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f7f1e8; /* beige doux */
+  display: flex;
+  overflow: hidden; 
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background-color: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 400px;
+  margin: 100px auto; /* recentré verticalement */
+  box-sizing: border-box;
+}
+
+
+
+
+/* Titre */
+h2 {
+  color: #5e3c26; /* marron foncé */
+  margin-bottom: 24px;
+  font-size: 24px;
+}
+
+/* Champs input */
+form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #a67853;
+  border-radius: 6px;
+  background-color: #fff7ee;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* Bouton de validation (submit) */
+form button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #a67853;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 16px;
+}
+
+
+.container button:not([type="submit"]) {
+  width: 100%;
+  padding: 12px;
+  background-color: #a67853;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+
+/* Hover pour tous les boutons */
+button:hover {
+  background-color: #8b5e3c;
+}
+
+/* Message d’erreur */
+div[style*="color: red"] {
+  margin-top: 12px;
+  color: #c0392b;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.logo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  height: 50px;
 }

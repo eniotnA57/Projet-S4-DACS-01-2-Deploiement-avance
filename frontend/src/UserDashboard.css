@@ -1,0 +1,102 @@
+:root {
+  --beige: #f4ede6;
+  --brown: #a56e49;
+  --light: #fffaf4;
+  --red: #e74c3c;
+  --red-dark: #c0392b;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --radius: 12px;
+  --font: 'Segoe UI', sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  background-color: var(--beige);
+}
+
+.user-dashboard {
+  padding: 40px 20px;
+}
+
+/* Déconnexion */
+.logout-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: var(--red);
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: var(--radius);
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: background-color 0.2s;
+}
+
+.logout-btn:hover {
+  background-color: var(--red-dark);
+}
+
+/* Titre */
+.welcome-title {
+  text-align: center;
+  color: var(--brown);
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+}
+
+/* Recherche */
+.search-box {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.search-box input {
+  width: 100%;
+  max-width: 500px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: var(--radius);
+  border: 1px solid #ccc;
+  outline: none;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.2s;
+}
+
+.search-box input:focus {
+  box-shadow: 0 0 0 3px rgba(165, 110, 73, 0.3);
+}
+
+/* Paires */
+.sneakers-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+}
+
+.sneaker-card {
+  background-color: white;
+  border: 1px solid var(--beige);
+  border-radius: var(--radius);
+  padding: 20px;
+  width: 200px;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.sneaker-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.sneaker-card h3 {
+  margin-top: 0;
+  color: var(--brown);
+}
