@@ -1,0 +1,32 @@
+.paiement-panel {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  width: 250px;
+  background-color: #fffaf4;
+  border: 2px solid var(--light-brown);
+  padding: 15px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  max-height: 80vh;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.paiement-panel h3 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: var(--brown);
+}
+
+.paiement-entry {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.paiement-total {
+  text-align: center;
+  font-weight: bold;
+  color: var(--accent-green-dark);
+  margin-top: 15px;
+}

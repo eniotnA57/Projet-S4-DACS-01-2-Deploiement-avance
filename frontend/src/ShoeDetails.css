@@ -1,0 +1,67 @@
+.shoe-details {
+  padding: 30px;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4ede6;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.back-button {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #a56e49;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+
+.back-button:hover {
+  color: #7c4e30;
+}
+
+.details-container {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.left {
+  flex: 1;
+  min-width: 280px;
+  max-width: 400px;
+}
+
+.details-image {
+  width: 100%;
+  border-radius: 10px;
+  border: 2px solid #c7a889;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.right {
+  flex: 1;
+  min-width: 250px;
+  color: #a56e49;
+}
+
+.right h2 {
+  margin-top: 0;
+  font-size: 1.8rem;
+}
+
+.right h4 {
+  margin-top: 20px;
+  font-size: 1.2rem;
+}
+
+.right ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 10px;
+}
+
+.right li {
+  margin-bottom: 6px;
+  font-size: 1rem;
+}

@@ -25,7 +25,9 @@ export default function AddSneakerForm({ onAdd }) {
       size: parseInt(size),
       category: category.toLowerCase(),
       user: userId,
-      price: parseFloat(price)
+      price: parseFloat(price),
+      isSold: false,
+      isPaid: false 
     };
 
     const res = await fetch('http://localhost:8000/api/shoes', {
@@ -51,32 +53,10 @@ export default function AddSneakerForm({ onAdd }) {
 
   return (
     <form onSubmit={handleSubmit} className="add-sneaker-form">
-      <input
-        placeholder="Nom"
-        value={name}
-        onChange={e => setName(e.target.value)}
-        required
-      />
-      <input
-        placeholder="Code"
-        value={code}
-        onChange={e => setCode(e.target.value)}
-        required
-      />
-      <input
-        type="number"
-        placeholder="Taille"
-        value={size}
-        onChange={e => setSize(e.target.value)}
-        required
-      />
-      <input
-        type="number"
-        placeholder="Prix demandé (€)"
-        value={price}
-        onChange={e => setPrice(e.target.value)}
-        required
-      />
+      <input placeholder="Nom" value={name} onChange={e => setName(e.target.value)} required />
+      <input placeholder="Code" value={code} onChange={e => setCode(e.target.value)} required />
+      <input type="number" placeholder="Taille" value={size} onChange={e => setSize(e.target.value)} required />
+      <input type="number" placeholder="Prix demandé (€)" value={price} onChange={e => setPrice(e.target.value)} required />
       <select value={category} onChange={e => setCategory(e.target.value)}>
         <option value="adulte">Adulte</option>
         <option value="enfant">Enfant</option>
@@ -84,9 +64,7 @@ export default function AddSneakerForm({ onAdd }) {
       <select value={userId} onChange={e => setUserId(e.target.value)} required>
         <option value="">-- Sélectionner un utilisateur --</option>
         {users.map(user => (
-          <option key={user._id} value={user._id}>
-            {user.username}
-          </option>
+          <option key={user._id} value={user._id}>{user.username}</option>
         ))}
       </select>
       <button type="submit">Ajouter</button>

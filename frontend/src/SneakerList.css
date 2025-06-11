@@ -113,3 +113,19 @@
 .back-button:hover {
   color: #000;
 }
+
+.size-box {
+  display: inline-block;
+  background-color: var(--light-brown);
+  color: white;
+  padding: 6px 10px;
+  margin: 3px;
+  border-radius: var(--border-radius);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.size-box:hover {
+  background-color: var(--brown);
+}

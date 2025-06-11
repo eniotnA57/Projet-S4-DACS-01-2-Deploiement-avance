@@ -48,14 +48,14 @@ export default function UserDashboard({ username }) {
         />
       </div>
 
-      <div className="sneakers-container">
+      <div className="sneaker-grid">
         {filtered.map(shoe => (
-          <div key={shoe._id} className="sneaker-card">
-            <h3>{shoe.name}</h3>
-            <p><strong>Code :</strong> {shoe.code}</p>
-            <p><strong>Taille :</strong> {shoe.size}</p>
-            <p><strong>Catégorie :</strong> {shoe.category}</p>
-            <p><strong>Prix :</strong> {shoe.price} €</p>
+          <div key={shoe._id} className="sneaker-tile">
+            <img src={shoe.image} alt={shoe.name} className="sneaker-image" />
+            <div className="sneaker-name">{shoe.name}</div>
+            <div className="sneaker-info">
+              <p><strong>Prix :</strong> {shoe.price} €</p>
+            </div>
           </div>
         ))}
       </div>

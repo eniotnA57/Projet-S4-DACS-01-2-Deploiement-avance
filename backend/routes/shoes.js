@@ -102,4 +102,41 @@ router.delete('/slug/:slug', async (req, res) => {
   }
 });
 
+// ✅ PATCH - Marquer une paire comme payée (ou autre champ)
+// ✅ PATCH - Met à jour une paire (vendue, payée, etc.)
+router.patch('/:id', async (req, res) => {
+  try {
+    const update = { ...req.body };
+
+    console.log('🔧 PATCH reçu pour la paire', req.params.id, 'avec :', update);
+
+    // ✅ Forcer le bon format du champ user
+    if (update.user && typeof update.user === 'object' && update.user._id) {
+      update.user = update.user._id;
+    }
+
+    // ✅ Vérifie que l'ID user existe
+    if (update.user) {
+      const exists = await Shoe.db.model('User').exists({ _id: update.user });
+      if (!exists) {
+        return res.status(400).json({ error: 'Utilisateur introuvable' });
+      }
+    }
+
+    // ✅ Mise à jour propre avec peu de chances d’échec
+    const updated = await Shoe.findByIdAndUpdate(req.params.id, update, {
+      new: true
+    }).populate('user', 'username');
+
+    if (!updated) {
+      return res.status(404).json({ error: 'Paire non trouvée' });
+    }
+
+    res.json(updated);
+  } catch (err) {
+    console.error('❌ Erreur PATCH /api/shoes/:id :', err);
+    res.status(500).json({ error: 'Erreur lors de la mise à jour' });
+  }
+});
+
 module.exports = router;

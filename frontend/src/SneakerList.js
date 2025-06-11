@@ -1,24 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './SneakerList.css';
 
-export default function SneakerList({ sneakers = [], onDelete, search = '' }) {
-  const [selectedShoe, setSelectedShoe] = useState(null); // 👈 Pour la vue détail
-
+export default function SneakerList({
+  sneakers = [],
+  onDelete,
+  search = '',
+  selectedShoe,
+  setSelectedShoe,
+  onOpenModal
+}) {
   const searchTerms = search.toLowerCase().trim().split(/\s+/);
 
-  const filteredSneakers = sneakers.filter(shoe => {
-    const values = [
-      shoe.name,
-      shoe.code,
-      shoe.category,
-      String(shoe.size),
-      shoe.user?.username || ''
-    ].map(v => String(v || '').toLowerCase());
+  const filteredSneakers = sneakers
+    .filter(shoe => !shoe.isSold) // 🔴 Seules les paires NON vendues
+    .filter(shoe => {
+      const values = [
+        shoe.name,
+        shoe.code,
+        shoe.category,
+        String(shoe.size),
+        shoe.user?.username || ''
+      ].map(v => String(v || '').toLowerCase());
 
-    return searchTerms.every(term =>
-      values.some(val => val.includes(term))
-    );
-  });
+      return searchTerms.every(term =>
+        values.some(val => val.includes(term))
+      );
+    });
 
   const grouped = {};
   filteredSneakers.forEach(shoe => {
@@ -37,7 +44,6 @@ export default function SneakerList({ sneakers = [], onDelete, search = '' }) {
 
   const groupedSneakers = Object.values(grouped);
 
-  // 🔍 Affichage de la vue détail (si sélectionné)
   if (selectedShoe) {
     return (
       <div className="sneaker-detail-view">
@@ -49,31 +55,29 @@ export default function SneakerList({ sneakers = [], onDelete, search = '' }) {
             className="sneaker-detail-image"
           />
           <div className="sneaker-detail-info">
-            <h2>{selectedShoe.name}</h2>
+            <h2>
+              {selectedShoe.name} {selectedShoe.category === 'enfant' ? '(enfant)' : ''}
+            </h2>
             <h3>Tailles disponibles :</h3>
-            <ul>
-              {selectedShoe.sizes.map((s, i) => (
-                <li key={i}>• {s}</li>
-              ))}
-            </ul>
-            <button
-              className="sneaker-delete-btn"
-              onClick={() => {
-                if (window.confirm("Supprimer toutes les tailles ?")) {
-                  selectedShoe.ids.forEach(id => onDelete(id));
-                  setSelectedShoe(null);
-                }
-              }}
-            >
-              Supprimer
-            </button>
+            <div className="size-grid">
+              {[...new Set(selectedShoe.sizes)]
+                .sort((a, b) => parseFloat(a) - parseFloat(b))
+                .map((size) => (
+                  <div
+                    key={`${selectedShoe.slug}-${size}`}
+                    className="size-box"
+                    onClick={() => onOpenModal(size, selectedShoe.slug)}
+                  >
+                    {size}
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
       </div>
     );
   }
 
-  // 🧱 Affichage classique en grille
   return (
     <div className="sneaker-grid sneaker-left">
       {groupedSneakers.length === 0 && search.trim() !== '' ? (
@@ -89,9 +93,8 @@ export default function SneakerList({ sneakers = [], onDelete, search = '' }) {
             {shoe.image && (
               <img src={shoe.image} alt={shoe.name} className="sneaker-img" />
             )}
-            <div className="sneaker-name">{shoe.name}</div>
-            <div className="sneaker-sizes">
-              <em>(clique pour voir les tailles)</em>
+            <div className="sneaker-name">
+              {shoe.name} {shoe.category === 'enfant' ? '(enfant)' : ''}
             </div>
           </div>
         ))

@@ -9,17 +9,20 @@
   --font: 'Segoe UI', sans-serif;
 }
 
-body {
+/* --- Général --- */
+html, body {
+  height: 100%;
+  overflow-y: auto;
   margin: 0;
   background-color: var(--beige);
   font-family: var(--font);
+  color: #333;
 }
 
+/* --- Dashboard Admin --- */
 .admin-dashboard {
   padding: 20px 40px 40px;
   min-height: 100vh;
-  background-color: var(--beige);
-  color: #333;
   width: 100%;
   box-sizing: border-box;
 }
@@ -29,6 +32,25 @@ body {
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--brown);
+}
+
+.logout-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #e74c3c;
+  color: white;
+  padding: 10px 16px;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: background-color 0.2s;
+}
+
+.logout-btn:hover {
+  background-color: #c0392b;
 }
 
 .add-button-left {
@@ -56,6 +78,7 @@ body {
   box-shadow: var(--shadow);
 }
 
+/* --- Barre de recherche --- */
 .centered-search {
   display: flex;
   justify-content: center;
@@ -71,7 +94,7 @@ body {
   border: 1px solid #ccc;
 }
 
-/* ✅ Grille en 4 colonnes */
+/* --- Grille de sneakers --- */
 .sneaker-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -81,7 +104,6 @@ body {
   max-width: 900px;
 }
 
-/* ✅ Tuile propre : image au-dessus + nom dessous */
 .sneaker-tile {
   background-color: white;
   border: 2px solid var(--light-brown);
@@ -94,9 +116,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
   max-width: 200px;
-  height: auto;
+  width: 100%;
   overflow: hidden;
 }
 
@@ -119,25 +140,7 @@ body {
   word-break: break-word;
 }
 
-.logout-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: #e74c3c;
-  color: white;
-  padding: 10px 16px;
-  font-size: 0.95rem;
-  border: none;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  box-shadow: var(--shadow);
-  transition: background-color 0.2s;
-}
-
-.logout-btn:hover {
-  background-color: #c0392b;
-}
-
+/* --- Bouton supprimer --- */
 .delete-button {
   margin-top: 8px;
   padding: 6px 12px;
@@ -152,4 +155,127 @@ body {
 
 .delete-button:hover {
   background-color: #c0392b;
+}
+
+/* --- Détails d'une sneaker (fullscreen) --- */
+.shoe-detail-fullscreen {
+  background-color: white;
+  border: 2px solid var(--light-brown);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  max-width: 900px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.detail-content {
+  display: flex;
+  gap: 30px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.detail-image {
+  width: 300px;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--border-radius);
+  border: 1px solid #ddd;
+}
+
+.detail-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.back-button {
+  background-color: transparent;
+  border: none;
+  color: var(--brown);
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.back-button:hover {
+  text-decoration: underline;
+}
+
+/* --- Grille de tailles --- */
+.size-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin: 10px 0 20px;
+}
+
+.size-tile {
+  padding: 8px 12px;
+  background-color: var(--light-brown);
+  color: white;
+  border-radius: var(--border-radius);
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* --- Modal --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px 30px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  max-width: 400px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modal-close-static {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+  font-weight: bold;
+  z-index: 10;
+}
+
+.close-modal:hover {
+  background-color: var(--accent-green-dark);
+}
+
+.a-payer-column {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  width: 250px;
+  padding: 15px;
+  border-radius: 10px;
+  max-height: 80vh;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.a-payer-column h3 {
+  text-align: center;
 }

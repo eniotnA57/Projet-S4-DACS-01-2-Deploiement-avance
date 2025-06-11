@@ -1,0 +1,28 @@
+.shoe-detail {
+  margin: 30px auto;
+  padding: 20px;
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  border: 2px solid var(--light-brown);
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  max-width: 900px;
+}
+
+.shoe-detail img {
+  width: 300px;
+  object-fit: contain;
+  border-radius: var(--border-radius);
+  border: 1px solid #ccc;
+}
+
+.shoe-detail-info {
+  flex: 1;
+}
+
+.shoe-detail-info h2 {
+  margin-bottom: 10px;
+  color: var(--brown);
+}
