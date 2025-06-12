@@ -25,7 +25,7 @@ export default function ShoeDetails() {
 
   return (
     <div className="shoe-details">
-      <Link to="/admin" className="back-button">← Retour</Link>
+      <Link to="/admin" className="back-button">Retour</Link>
       <div className="details-container">
         <div className="left">
           <img src={shoe.image} alt={shoe.name} className="details-image" />

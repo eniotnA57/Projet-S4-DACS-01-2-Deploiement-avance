@@ -17,6 +17,7 @@ body {
 
 .user-dashboard {
   padding: 40px 20px;
+  position: relative;
 }
 
 /* Déconnexion */
@@ -70,13 +71,22 @@ body {
   box-shadow: 0 0 0 3px rgba(165, 110, 73, 0.3);
 }
 
-/* Paires */
+/* Grille de sneakers */
 .sneakers-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start; /* 🔄 Aligne à gauche */
   gap: 24px;
 }
+
+/* Contenu principal */
+.user-dashboard-content {
+  position: relative;
+  padding-right: 340px; /* place pour le bloc paiement */
+  padding-left: 80px;   /* ✅ ajoute cet espace */
+  box-sizing: border-box;
+}
+
 
 .sneaker-card {
   background-color: white;
@@ -99,4 +109,28 @@ body {
 .sneaker-card h3 {
   margin-top: 0;
   color: var(--brown);
+}
+
+/* Paiement à droite (fixe) */
+.paiement-right {
+  position: fixed;
+  top: 120px;
+  right: 30px;
+  width: 300px;
+  padding: 0;
+  z-index: 1000;
+}
+
+.profile-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background-color: #a56e49;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: var(--radius);
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: var(--shadow);
 }

@@ -10,11 +10,34 @@ export default function AddSneakerForm({ onAdd }) {
   const [price, setPrice] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/users')
-      .then(res => res.json())
-      .then(data => setUsers(data))
-      .catch(err => console.error('Erreur chargement utilisateurs:', err));
-  }, []);
+  const token = localStorage.getItem('token');
+  if (!token) {
+    console.warn('Pas de token, pas d\'appel /api/users');
+    setUsers([]);
+    return;
+  }
+
+  fetch('http://localhost:8000/api/users', {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (Array.isArray(data)) {
+        setUsers(data);
+      } else {
+        console.warn('Réponse inattendue /api/users:', data);
+        setUsers([]);
+      }
+    })
+    .catch(err => {
+      console.error('Erreur chargement utilisateurs:', err);
+      setUsers([]);
+    });
+}, []);
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();

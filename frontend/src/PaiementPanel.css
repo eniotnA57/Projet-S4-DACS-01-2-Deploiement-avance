@@ -1,32 +1,104 @@
-.paiement-panel {
+.a-payer-column {
   position: fixed;
   top: 80px;
   right: 20px;
-  width: 250px;
+  width: 280px;
   background-color: #fffaf4;
   border: 2px solid var(--light-brown);
-  padding: 15px;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   max-height: 80vh;
   overflow-y: auto;
   z-index: 1000;
+  font-family: 'Segoe UI', sans-serif;
+  transition: all 0.3s ease-in-out;
 }
 
-.paiement-panel h3 {
+.a-payer-column h3 {
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
   color: var(--brown);
+  font-size: 1.2rem;
+  border-bottom: 1px solid #e5ddd2;
+  padding-bottom: 6px;
 }
 
-.paiement-entry {
-  font-size: 0.9rem;
+.user-button {
+  display: block;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  color: var(--brown);
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-align: left;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
   margin-bottom: 8px;
 }
 
-.paiement-total {
-  text-align: center;
+.user-button:hover {
+  background-color: #f1e7dc;
+}
+
+.back-button {
+  background-color: transparent;
+  border: none;
+  color: var(--brown);
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.back-button:hover {
+  background-color: #f4e9de;
+}
+
+ul {
+  padding-left: 16px;
+  margin-bottom: 12px;
+}
+
+li {
+  font-size: 0.92rem;
+  margin-bottom: 6px;
+  color: #4a3b2f;
+}
+
+p {
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+.confirm-button {
+  width: 100%;
+  background-color: var(--accent-green-dark);
+  color: white;
   font-weight: bold;
-  color: var(--accent-green-dark);
-  margin-top: 15px;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.confirm-button:hover {
+  background-color: #3c8c3c;
+}
+
+.paiement-entry {
+  font-size: 0.95rem;
+  background-color: #fdf7ef;
+  padding: 8px 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  color: #4a3b2f;
+  line-height: 1.4;
 }

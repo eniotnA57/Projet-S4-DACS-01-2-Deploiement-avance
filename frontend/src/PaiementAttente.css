@@ -1,0 +1,42 @@
+.pending-payment-box {
+  background-color: #fffaf4;
+  border-radius: 14px; /* ✅ un peu moins que le parent */
+  padding: 20px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.pending-payment-box h3 {
+  color: #6e4c2c;
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.pending-entry {
+  margin-bottom: 10px;
+  color: #4a3b2f;
+  font-size: 0.96rem;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.pending-total {
+  margin-top: 20px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #2d572c;
+}
+
+.pending-payment-outer {
+  background-color: #c7ab8e;
+  border-radius: 16px;
+  padding: 2px;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  max-height: calc(100vh - 160px);
+  overflow-y: auto;
+}
+

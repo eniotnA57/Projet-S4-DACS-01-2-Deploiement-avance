@@ -76,7 +76,7 @@ export default function AdminDashboard({ username }) {
 
   return (
     <div className="admin-dashboard">
-      <h2 className="welcome-text">Bienvenue, {username} (admin)</h2>
+      <h2 className="welcome-text">Bienvenue, {username}</h2>
 
       <button
         className="logout-btn"

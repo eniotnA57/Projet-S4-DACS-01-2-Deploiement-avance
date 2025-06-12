@@ -25,13 +25,23 @@ export default function App() {
       setToken(storedToken);
       setUsername(decoded.username);
       setRole(decoded.role);
+      setEmail(decoded.email); // ✅ Récupération de l'email au démarrage
     }
   }, []);
 
   // Lorsqu'on se connecte ou s'inscrit
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('✅ handleSubmit déclenché ! mode:', mode, 'username:', username);
+
     const endpoint = mode === "register" ? "register" : "login";
+
+    // Petite vérification supplémentaire
+    if (mode === "register" && !email.trim()) {
+      setMsg("Veuillez renseigner un email.");
+      return;
+    }
+
     const body = mode === "register"
       ? { username, password, firstName, lastName, email }
       : { username, password };
@@ -42,26 +52,31 @@ export default function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
+
       const data = await res.json();
 
+      console.log('✅ Réponse du serveur:', data);
+
       if (data.token) {
-        localStorage.setItem("token", data.token); // ✅ Sauvegarde token
+        localStorage.setItem("token", data.token);
         const decoded = jwtDecode(data.token);
         setToken(data.token);
         setUsername(decoded.username);
         setRole(decoded.role);
+        setEmail(decoded.email); // ✅ Enregistrement de l'email après login/register
         setMsg(`Connecté en tant que ${decoded.username}`);
       } else {
         setMsg(data.message || data.error);
       }
     } catch (err) {
+      console.error('❌ Erreur fetch:', err);
       setMsg("Erreur serveur.");
     }
   };
 
-  // Redirection conditionnelle selon le rôle
+  // Redirection selon le rôle
   if (token && role === "user") {
-    return <UserDashboard username={username} />;
+    return <UserDashboard username={username} email={email} />;
   }
 
   if (token && role === "admin") {

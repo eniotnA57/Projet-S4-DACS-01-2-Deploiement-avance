@@ -1,7 +1,9 @@
 version: "3.8"
+
 services:
   mongo:
-    image: mongo:6
+    build:
+      context: ./mongo
     container_name: mongo
     restart: always
     ports:
@@ -30,11 +32,9 @@ services:
     container_name: frontend
     restart: always
     ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend:/app
-    working_dir: /app
-    command: ["npm", "start"]
+      - "3000:80"
+    depends_on:
+      - backend    
 
 volumes:
   mongo-data:
