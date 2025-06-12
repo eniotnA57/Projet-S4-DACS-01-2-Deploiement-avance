@@ -1,6 +1,20 @@
 const axios = require('axios');
 
-async function fetchWethenewImageFromApi(handle) {
+/**
+ * Nettoie un nom de paire en un handle Wethenew valide
+ */
+function slugify(name) {
+  return name
+    .toLowerCase()
+    .replace(/'07/g, '07')           // remplace l’apostrophe '07 → 07
+    .replace(/['’]/g, '')            // supprime autres apostrophes
+    .replace(/[^a-z0-9]+/g, '-')     // remplace les espaces et symboles par des -
+    .replace(/^-+|-+$/g, '');        // supprime les tirets en début/fin
+}
+
+async function fetchWethenewImageFromApi(rawNameOrHandle) {
+  const handle = slugify(rawNameOrHandle);
+
   try {
     const response = await axios.post(
       'https://checkout.wethenew.com/api/2025-04/graphql.json',

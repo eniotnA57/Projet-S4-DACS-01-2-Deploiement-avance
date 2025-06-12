@@ -1,3 +1,6 @@
+
+console.log('✅ Fichier /routes/auth.js chargé !');
+
 require('dotenv').config();
 
 const express = require('express');
@@ -45,12 +48,18 @@ router.post('/register', async (req, res) => {
              <p>Merci pour votre inscription sur notre gestionnaire de stock de sneakers.</p>`
     });
 
-    // ✅ Création du token
+    
     const token = jwt.sign(
-      { id: user._id, username: user.username, role: user.role },
+      {
+        id: user._id,
+        username: user.username,
+        role: user.role,
+        email: user.email 
+      },
       JWT_SECRET,
       { expiresIn: '24h' }
     );
+
 
     res.status(201).json({ token });
   } catch (err) {
@@ -70,12 +79,20 @@ router.post('/login', async (req, res) => {
     const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) return res.status(401).json({ message: 'Mot de passe incorrect' });
 
+    console.log('✅ user trouvé pour login:', user);
+
+    // ✅ Création du token avec l'email inclus
     const token = jwt.sign(
-      { id: user._id, username: user.username, role: user.role },
+      {
+        id: user._id,
+        username: user.username,
+        role: user.role,
+        email: user.email // 🔥 AJOUT ICI
+      },
       JWT_SECRET,
       { expiresIn: '24h' }
     );
-
+    console.log('✅ Envoi du token :', token);
     res.json({ token });
   } catch (err) {
     console.error('Erreur login :', err);

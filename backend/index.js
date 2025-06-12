@@ -24,6 +24,10 @@ app.use('/api/shoes', shoesRoutes); // <-- active le fichier shoes.js
 const userRoutes = require('./routes/users');
 app.use('/api/users', userRoutes);
 
+const mailRoutes = require('./routes/mail');
+app.use('/api/mail', mailRoutes);
 
 // 5. Lancement du serveur
 app.listen(8000, '0.0.0.0', () => console.log('API running on port 8000'));
+
+

@@ -1,19 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const Shoe = require('../models/Shoe');
-const fetchWethenewImageFromApi = require('../utils/fetchWethenewImage'); // ✅ Import correct
+const fetchWethenewImageFromApi = require('../utils/fetchWethenewImage');
 
-// 🔧 Normalisation du nom
-const normalizeName = (name) => name.toLowerCase().trim().replace(/\s+/g, ' ');
+// Normalisation du nom
+const normalizeName = (name) =>
+  name
+    .toLowerCase()
+    .replace(/['’‘`]/g, '') // supprime les apostrophes
+    .replace(/\s+/g, ' ')    // normalise les espaces
+    .trim();
 
-// 🔧 Génération de slug
+// Génération de slug
 const generateSlug = (name) => normalizeName(name).replace(/\s+/g, '-');
 
-// 🔍 GET - Toutes les paires (filtrable par utilisateur)
+// GET - Toutes les paires (filtrable par utilisateur)
 router.get('/', async (req, res) => {
   try {
     const filter = req.query.user ? { user: req.query.user } : {};
-    const shoes = await Shoe.find(filter).populate('user', 'username');
+    const shoes = await Shoe.find(filter).populate('user', 'username email iban');
     res.json(shoes);
   } catch (err) {
     console.error('Erreur GET /api/shoes :', err);
@@ -21,7 +26,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// ➕ POST - Ajouter une paire
+// POST - Ajouter une paire
 router.post('/', async (req, res) => {
   try {
     const { name, code, size, category, user, price } = req.body;
@@ -34,7 +39,7 @@ router.post('/', async (req, res) => {
     const normalizedName = normalizeName(name);
     const slug = generateSlug(name);
 
-    const image = await fetchWethenewImageFromApi(slug); // ✅ Appel à l'API Wethenew
+    const image = await fetchWethenewImageFromApi(slug);
 
     const newShoe = new Shoe({
       name: normalizedName,
@@ -48,7 +53,8 @@ router.post('/', async (req, res) => {
     });
 
     const saved = await newShoe.save();
-    const populated = await saved.populate('user', 'username');
+    const populated = await saved.populate('user', 'username email iban'); // ajouter email et iban aussi ici
+
     res.status(201).json(populated);
   } catch (err) {
     console.error('Erreur POST /api/shoes :', err.message);
@@ -59,7 +65,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// ❌ DELETE - Supprimer une paire par ID
+// DELETE - Supprimer une paire par ID
 router.delete('/:id', async (req, res) => {
   try {
     const result = await Shoe.findByIdAndDelete(req.params.id);
@@ -71,7 +77,7 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-// 🔍 GET - Toutes les tailles d’un même modèle (par slug)
+// GET - Toutes les tailles d’un même modèle (par slug)
 router.get('/slug/:slug', async (req, res) => {
   try {
     const shoes = await Shoe.find({ slug: req.params.slug }).populate('user', 'username');
@@ -88,7 +94,7 @@ router.get('/slug/:slug', async (req, res) => {
   }
 });
 
-// ❌ DELETE - Supprimer toutes les tailles d’une paire (par slug)
+// DELETE - Supprimer toutes les tailles d’une paire (par slug)
 router.delete('/slug/:slug', async (req, res) => {
   try {
     const result = await Shoe.deleteMany({ slug: req.params.slug });
@@ -102,20 +108,19 @@ router.delete('/slug/:slug', async (req, res) => {
   }
 });
 
-// ✅ PATCH - Marquer une paire comme payée (ou autre champ)
-// ✅ PATCH - Met à jour une paire (vendue, payée, etc.)
+// PATCH - Met à jour une paire (vendue, payée, etc.)
 router.patch('/:id', async (req, res) => {
   try {
     const update = { ...req.body };
 
     console.log('🔧 PATCH reçu pour la paire', req.params.id, 'avec :', update);
 
-    // ✅ Forcer le bon format du champ user
+    // Forcer le bon format du champ user
     if (update.user && typeof update.user === 'object' && update.user._id) {
       update.user = update.user._id;
     }
 
-    // ✅ Vérifie que l'ID user existe
+    // Vérifie que l'ID user existe
     if (update.user) {
       const exists = await Shoe.db.model('User').exists({ _id: update.user });
       if (!exists) {
@@ -123,14 +128,16 @@ router.patch('/:id', async (req, res) => {
       }
     }
 
-    // ✅ Mise à jour propre avec peu de chances d’échec
+    // Mise à jour + populate complet
     const updated = await Shoe.findByIdAndUpdate(req.params.id, update, {
       new: true
-    }).populate('user', 'username');
+    }).populate('user', 'username email iban'); // <- ici aussi on ajoute email + iban !
 
     if (!updated) {
       return res.status(404).json({ error: 'Paire non trouvée' });
     }
+
+    console.log('✅ Pair updated → user:', updated.user);
 
     res.json(updated);
   } catch (err) {
