@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './MySneaker.css'; 
+const API_URL = process.env.REACT_APP_API_URL;
+
 
 export default function MySneakers({ userId, search }) {
   const [sneakers, setSneakers] = useState([]);

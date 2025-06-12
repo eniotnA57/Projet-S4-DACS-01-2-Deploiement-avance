@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './Profil.css';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
+
 export default function Profil({ username, onClose }) {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');

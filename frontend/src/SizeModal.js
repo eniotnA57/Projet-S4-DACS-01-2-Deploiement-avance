@@ -1,6 +1,8 @@
 import React from 'react';
 import './SizeModal.css';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 export default function SizeModal({ entries, size, onClose, onValidate, onDelete }) {
   return (
     <div className="modal-overlay" onClick={onClose}>

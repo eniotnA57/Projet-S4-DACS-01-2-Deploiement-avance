@@ -5,6 +5,7 @@ import PaiementPanel from './PaiementPanel';
 import SizeModal from './SizeModal';
 import './AdminDashboard.css';
 
+
 export default function AdminDashboard({ username }) {
   const [sneakers, setSneakers] = useState([]);
   const [filter, setFilter] = useState('');
@@ -12,6 +13,7 @@ export default function AdminDashboard({ username }) {
   const [modalData, setModalData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedShoe, setSelectedShoe] = useState(null);
+  
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/shoes`)

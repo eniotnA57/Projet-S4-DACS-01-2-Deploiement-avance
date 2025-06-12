@@ -1,6 +1,9 @@
 import React from 'react';
 import './ShoeDetail.css';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
+
 export default function ShoeDetail({ shoe, onBack, onSizeClick }) {
   const sizes = [...new Set(shoe.variants?.map(v => v.size) || [])];
 
