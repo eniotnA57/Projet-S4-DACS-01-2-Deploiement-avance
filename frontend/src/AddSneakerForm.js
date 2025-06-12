@@ -19,7 +19,7 @@ export default function AddSneakerForm({ onAdd }) {
     return;
   }
 
-  fetch('process.env.REACT_APP_API_URL/users', {
+  fetch(`${API_URL}/api/users`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
@@ -41,6 +41,7 @@ export default function AddSneakerForm({ onAdd }) {
 
 
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -55,7 +56,7 @@ export default function AddSneakerForm({ onAdd }) {
       isPaid: false 
     };
 
-    const res = await fetch(`${API_URL}/${endpoint}`, {
+    const res = await fetch(`${API_URL}/api/shoes`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newSneaker)
