@@ -1,15 +1,22 @@
 # Node
-node_modules
-.env
+node_modules/
+npm-debug.log
 
 # Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+logs
+*.log
 
-# IDE / système
-.vscode
-.DS_Store
+# Env
+.env
+.env.local
+.env.production
 
-# Docker volumes (optionnel)
-*.local
+# IDE
+.vscode/
+.idea/
+
+# Docker
+docker-compose.override.yml
+
+# Build
+frontend/build

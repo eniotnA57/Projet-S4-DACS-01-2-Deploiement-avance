@@ -1,6 +1,9 @@
 # backend/Dockerfile
 FROM node:20
 
+# Crée un user non-root
+RUN useradd -m utilisateur
+
 WORKDIR /app
 
 COPY package*.json ./
@@ -9,5 +12,8 @@ RUN npm install
 COPY . .
 
 EXPOSE 8000
+
+# Change user
+USER utilisateur
 
 CMD ["node", "index.js"]
