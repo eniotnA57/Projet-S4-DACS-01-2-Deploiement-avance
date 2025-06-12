@@ -11,7 +11,7 @@ export default function Profil({ username, onClose }) {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/api/users/by-username/${username}`);
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/users/by-username/${username}`)
         const data = await res.json();
         console.log('✅ Infos user récupérées:', data);
 
@@ -40,7 +40,7 @@ export default function Profil({ username, onClose }) {
     }
 
     try {
-      const res = await fetch(`http://localhost:8000/api/users/by-username/${username}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/users/by-username/${username}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

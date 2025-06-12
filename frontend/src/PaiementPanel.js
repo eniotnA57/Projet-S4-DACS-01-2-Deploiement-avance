@@ -30,7 +30,7 @@ export default function PaiementPanel({ sneakers, setSneakers }) {
 
     // Marque les paires comme payées
     for (let s of userData.shoes) {
-      await fetch(`http://localhost:8000/api/shoes/${s._id}`, {
+      await fetch(`${process.env.REACT_APP_API_URL}/shoes/${s._id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ isPaid: true })
@@ -44,7 +44,7 @@ export default function PaiementPanel({ sneakers, setSneakers }) {
 
     // Envoie l'email de confirmation
     try {
-      await fetch('http://localhost:8000/api/mail/payment', {
+      await fetch(`${process.env.REACT_APP_API_URL}/mail/payment`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -8,7 +8,7 @@ export default function ShoeDetails() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/shoes/slug/${slug}`)
+    fetch(`${process.env.REACT_APP_API_URL}/shoes/slug/${slug}`)
       .then(res => res.json())
       .then(data => {
         setShoe(data);

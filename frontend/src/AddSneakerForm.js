@@ -17,7 +17,7 @@ export default function AddSneakerForm({ onAdd }) {
     return;
   }
 
-  fetch('http://localhost:8000/api/users', {
+  fetch('process.env.REACT_APP_API_URL/users', {
     headers: {
       'Authorization': `Bearer ${token}`
     }
@@ -53,7 +53,7 @@ export default function AddSneakerForm({ onAdd }) {
       isPaid: false 
     };
 
-    const res = await fetch('http://localhost:8000/api/shoes', {
+    const res = await fetch(`${API_URL}/${endpoint}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newSneaker)

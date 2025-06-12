@@ -23,7 +23,7 @@ export default function SizeModal({ entries, size, onClose, onValidate, onDelete
                     const userId = entry.user?._id || entry.user;
 
                     try {
-                      const res = await fetch(`http://localhost:8000/api/shoes/${entry._id}`, {
+                      const res = await fetch(`${process.env.REACT_APP_API_URL}/shoes/${entry._id}`, {
                         method: 'PATCH',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -64,7 +64,7 @@ export default function SizeModal({ entries, size, onClose, onValidate, onDelete
                     if (!confirmDelete) return;
 
                     try {
-                      const res = await fetch(`http://localhost:8000/api/shoes/${entry._id}`, {
+                      const res = await fetch(`${process.env.REACT_APP_API_URL}/shoes/${entry._id}`, {
                         method: 'DELETE',
                       });
 

@@ -12,7 +12,7 @@ export default function MySneakers({ userId, search }) {
 
     const query = role === 'admin' ? 'role=admin' : `user=${userId}&role=user`;
 
-    fetch(`http://localhost:8000/api/shoes?${query}`)
+    fetch(`${process.env.REACT_APP_API_URL}/shoes?${query}`)
       .then(res => res.json())
       .then(data => setSneakers(data))
       .catch(err => console.error('Erreur chargement sneakers perso:', err));

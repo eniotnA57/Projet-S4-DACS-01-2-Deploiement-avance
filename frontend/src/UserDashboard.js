@@ -25,7 +25,7 @@ export default function UserDashboard({ username, email }) {
   useEffect(() => {
     if (!userId) return;
 
-    fetch(`http://localhost:8000/api/shoes?user=${userId}`)
+    fetch(`${process.env.REACT_APP_API_URL}/shoes?user=${userId}`)
       .then(res => res.json())
       .then(data => {
         setSneakers(data);
