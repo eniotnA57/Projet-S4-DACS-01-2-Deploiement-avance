@@ -20,3 +20,17 @@ docker-compose.override.yml
 
 # Build
 frontend/build
+
+# System
+.DS_Store
+Thumbs.db
+
+# Certbot
+var/
+var/www/certbot/
+
+# Mongo 
+mongo-data/
+
+# Optional npm cache
+.npm/
