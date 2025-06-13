@@ -13,14 +13,16 @@ const nodemailer = require('nodemailer');
 const JWT_SECRET = process.env.JWT_SECRET || 'secretpardefault';
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
   auth: {
     user: process.env.MAIL_USER,
     pass: process.env.MAIL_PASS
   }
 });
 
-// 📥 REGISTER
+// REGISTER
 router.post('/register', async (req, res) => {
   const { username, password, firstName, lastName, email, role = 'user' } = req.body;
 

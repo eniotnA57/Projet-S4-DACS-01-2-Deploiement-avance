@@ -7,10 +7,12 @@ services:
     container_name: mongo
     restart: always
     ports:
-      - "27017:27017"
+      - "127.0.0.1:27017:27017"
     volumes:
       - mongo-data:/data/db
-
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
   backend:
     build: ./backend
     container_name: backend
@@ -18,7 +20,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - MONGO_URL=mongodb://mongo:27017/stockdb
+      - MONGO_URL=mongodb://admin:${MONGO_ROOT_PASSWORD}@mongo:27017/stockdb?authSource=admin
       - JWT_SECRET=monSuperSecretChangeLe!
     depends_on:
       - mongo

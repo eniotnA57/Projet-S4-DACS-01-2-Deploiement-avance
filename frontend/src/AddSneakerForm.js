@@ -19,7 +19,7 @@ export default function AddSneakerForm({ onAdd }) {
     return;
   }
 
-  fetch(`${API_URL}/api/users`, {
+  fetch(`${API_URL}/users`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
@@ -29,7 +29,7 @@ export default function AddSneakerForm({ onAdd }) {
       if (Array.isArray(data)) {
         setUsers(data);
       } else {
-        console.warn('Réponse inattendue /api/users:', data);
+        console.warn('Réponse inattendue /users:', data);
         setUsers([]);
       }
     })
@@ -56,7 +56,7 @@ export default function AddSneakerForm({ onAdd }) {
       isPaid: false 
     };
 
-    const res = await fetch(`${API_URL}/api/shoes`, {
+    const res = await fetch(`${API_URL}/shoes`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newSneaker)
